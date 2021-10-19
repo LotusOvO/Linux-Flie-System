@@ -5,17 +5,20 @@
 #ifndef OS_HEADER_H
 #define OS_HEADER_H
 #include <vector>
+#include <ctime>
+#include <cstring>
 using namespace std;
 
 inline const char *FileName = "../sd";
 inline std::fstream disk;
+inline string nowusr;
 
 struct INode {        //72 b
     int fsize;        //4b
     int blocknum;     //4b
     int blocknode[10];//40b
     char owner[6];    //文件拥有者 6b
-    char mode[7];     //[0]1文件0目录 [1-3]owner权限 [4-6]other权限 r|w|x    7b
+    char mode[8];     //[0]1文件0目录 [1-3]owner权限 [4-6]other权限 r|w|x    8b
     char time[9];     //修改时间   9b
 };
 
@@ -75,7 +78,7 @@ string pathdivide(string path, int &tempinodeindex) {
                 }
             }
         }
-        cout << "Error: can't find the dir\n";
+//        cout << "Error: can't find the dir\n";
         return "|error|";
     End:
         pos = path.find_first_of('/');;
@@ -89,6 +92,33 @@ int pow2(int x) {
         sum *= 2;
     }
     return sum;
+}
+
+string strtime(char c[]){
+    string s;
+    s.append(c,2);
+    s.append("/");
+    s.append(c+2,2);
+    s.append(" ");
+    s.append(c+4,2);
+    s.append(":");
+    s.append(c+6,2);
+    return s;
+}
+
+string gettime(){
+    string s;
+    time_t t = time(NULL);
+    struct tm *tt(localtime(&t));
+    if(tt->tm_mon < 9) s.append("0");
+    s.append(to_string(tt->tm_mon+1));
+    if(tt->tm_mday < 10) s.append("0");
+    s.append(to_string(tt->tm_mday));
+    if(tt->tm_hour < 10) s.append("0");
+    s.append(to_string(tt->tm_hour));
+    if(tt->tm_min < 10) s.append("0");
+    s.append(to_string(tt->tm_min));
+    return s;
 }
 
 #endif//OS_HEADER_H

@@ -8,6 +8,7 @@
 #include "header.h"
 #include <cstring>
 #include <vector>
+
 using namespace std;
 
 void ls(vector<string> args = {}) {
@@ -15,48 +16,210 @@ void ls(vector<string> args = {}) {
     switch (argnum) {
         case 0: {                   //单独ls指令
             vector<Dirnode> tempdir;
-            for(int i = 0;i < inode[nowinodenum].blocknum;i++){
+            for (int i = 0; i < inode[nowinodenum].blocknum; i++) {
                 Dir temp{};
-                disk.seekg((87+inode[nowinodenum].blocknode[i]) * 1024);
-                disk.read((char*)&temp,sizeof(temp));
-                for(int j =0;j<temp.num;j ++){
+                disk.seekg((87 + inode[nowinodenum].blocknode[i]) * 1024);
+                disk.read((char *) &temp, sizeof(temp));
+                for (int j = 0; j < temp.num; j++) {
                     tempdir.push_back(temp.dir[j]);
                 }
             }
-            for (auto &i : tempdir) {//输出当前目录的内容
-                cout << i.filename;
+            for (int i = 2; i < tempdir.size(); i++) {//输出当前目录的内容
+                cout << tempdir[i].filename;
                 cout << '\n';
             }
             break;
         };
-        case 1: {//ls 指定目录
-            string path = args[0] + "/.";
-            int tempinodeindex;
-            vector<Dirnode> tempdir;
-            path = pathdivide(path,tempinodeindex);
-            if(path == "|error|"){    //找不到路径
-                cout << "Error: can't find the dir\n";
-                return;
-            }
-            for(int i = 0;i < inode[tempinodeindex].blocknum;i++){
-                Dir temp{};
-                disk.seekg((87+inode[tempinodeindex].blocknode[i]) * 1024);
-                disk.read((char*)&temp,sizeof(temp));
-                for(int j =0;j<temp.num;j ++){
-                    tempdir.push_back(temp.dir[j]);
+        case 1: {
+            if (args[0] == "-a") {    //输出所有目录
+                vector<Dirnode> tempdir;
+                for (int i = 0; i < inode[nowinodenum].blocknum; i++) {
+                    Dir temp{};
+                    disk.seekg((87 + inode[nowinodenum].blocknode[i]) * 1024);
+                    disk.read((char *) &temp, sizeof(temp));
+                    for (int j = 0; j < temp.num; j++) {
+                        tempdir.push_back(temp.dir[j]);
+                    }
                 }
+                for (auto &i: tempdir) {//输出当前目录的内容(包括.和..)
+                    cout << i.filename;
+                    cout << '\n';
+                }
+                break;
+            } else if (args[0] == "-l") {   //输出信息
+                vector<Dirnode> tempdir;
+                for (int i = 0; i < inode[nowinodenum].blocknum; i++) {
+                    Dir temp{};
+                    disk.seekg((87 + inode[nowinodenum].blocknode[i]) * 1024);
+                    disk.read((char *) &temp, sizeof(temp));
+                    for (int j = 0; j < temp.num; j++) {
+                        tempdir.push_back(temp.dir[j]);
+                    }
+                }
+                char c[8];
+                strcpy(c, "dwrxwrx");
+                for (int i = 2; i < tempdir.size(); i++) {//输出当前目录的内容
+                    cout << ((inode[tempdir[i].inodeindex].mode[0] == '1') ? 'f' : 'd');
+                    for (int j = 1; j < 6; j++) {
+                        if (inode[tempdir[i].inodeindex].mode[i] == '1') {
+                            cout << c[j];
+                        } else {
+                            cout << '-';
+                        }
+                    }
+                    cout << "  " << inode[tempdir[i].inodeindex].owner;
+                    cout << "  " << strtime(inode[tempdir[i].inodeindex].time);
+                    cout << "  " << tempdir[i].filename;
+                    cout << '\n';
+                }
+                break;
+            } else if(args[0] == "-la"){
+                vector<Dirnode> tempdir;
+                for (int i = 0; i < inode[nowinodenum].blocknum; i++) {
+                    Dir temp{};
+                    disk.seekg((87 + inode[nowinodenum].blocknode[i]) * 1024);
+                    disk.read((char *) &temp, sizeof(temp));
+                    for (int j = 0; j < temp.num; j++) {
+                        tempdir.push_back(temp.dir[j]);
+                    }
+                }
+                char c[8];
+                strcpy(c, "dwrxwrx");
+                for (int i = 0; i < tempdir.size(); i++) {//输出当前目录的内容
+                    cout << ((inode[tempdir[i].inodeindex].mode[0] == '1') ? 'f' : 'd');
+                    for (int j = 1; j < 6; j++) {
+                        if (inode[tempdir[i].inodeindex].mode[i] == '1') {
+                            cout << c[j];
+                        } else {
+                            cout << '-';
+                        }
+                    }
+                    cout << "  " << inode[tempdir[i].inodeindex].owner;
+                    cout << "  " << strtime(inode[tempdir[i].inodeindex].time);
+                    cout << "  " << tempdir[i].filename;
+                    cout << '\n';
+                }
+                break;
+            }else{//ls 指定目录
+                string path = args[0] + "/.";
+                int tempinodeindex;
+                vector<Dirnode> tempdir;
+                path = pathdivide(path, tempinodeindex);
+                if (path == "|error|") {    //找不到路径
+                    cout << "Error: can't find the dir\n";
+                    return;
+                }
+                for (int i = 0; i < inode[tempinodeindex].blocknum; i++) {
+                    Dir temp{};
+                    disk.seekg((87 + inode[tempinodeindex].blocknode[i]) * 1024);
+                    disk.read((char *) &temp, sizeof(temp));
+                    for (int j = 0; j < temp.num; j++) {
+                        tempdir.push_back(temp.dir[j]);
+                    }
+                }
+                for (int i = 2; i < tempdir.size(); i++) {//输出当前目录的内容
+                    cout << tempdir[i].filename;
+                    cout << '\n';
+                }
+//            for (auto &i : tempdir) {//输出当前目录的内容
+//                cout << i.filename;
+//                cout << '\n';
+//            }
+                break;
             }
-            for (auto &i : tempdir) {//输出当前目录的内容
-                cout << i.filename;
-                cout << '\n';
-            }
-            break;
         };
         case 2: {
+            if (args[1] == "-a") {
+                string path = args[0] + "/.";
+                int tempinodeindex;
+                vector<Dirnode> tempdir;
+                path = pathdivide(path, tempinodeindex);
+                if (path == "|error|") {    //找不到路径
+                    cout << "Error: can't find the dir\n";
+                    return;
+                }
+                for (int i = 0; i < inode[tempinodeindex].blocknum; i++) {
+                    Dir temp{};
+                    disk.seekg((87 + inode[tempinodeindex].blocknode[i]) * 1024);
+                    disk.read((char *) &temp, sizeof(temp));
+                    for (int j = 0; j < temp.num; j++) {
+                        tempdir.push_back(temp.dir[j]);
+                    }
+                }
+                for (auto &i: tempdir) {//输出当前目录的内容(包括.和..)
+                    cout << i.filename;
+                    cout << '\n';
+                }
+            } else if (args[1] == "-l") {
+                string path = args[0] + "/.";
+                int tempinodeindex;
+                vector<Dirnode> tempdir;
+                path = pathdivide(path, tempinodeindex);
+                if (path == "|error|") {    //找不到路径
+                    cout << "Error: can't find the dir\n";
+                    return;
+                }
+                for (int i = 0; i < inode[tempinodeindex].blocknum; i++) {
+                    Dir temp{};
+                    disk.seekg((87 + inode[tempinodeindex].blocknode[i]) * 1024);
+                    disk.read((char *) &temp, sizeof(temp));
+                    for (int j = 0; j < temp.num; j++) {
+                        tempdir.push_back(temp.dir[j]);
+                    }
+                }
+                char c[8];
+                strcpy(c, "dwrxwrx");
+                for (int i = 2; i < tempdir.size(); i++) {//输出当前目录的内容
+                    cout << ((inode[tempdir[i].inodeindex].mode[0] == '1') ? 'f' : 'd');
+                    for (int j = 1; j < 6; j++) {
+                        if (inode[tempdir[i].inodeindex].mode[i] == '1') {
+                            cout << c[j];
+                        } else {
+                            cout << '-';
+                        }
+                    }
+                    cout << "  " << inode[tempdir[i].inodeindex].owner;
+                    cout << "  " << strtime(inode[tempdir[i].inodeindex].time);
+                    cout << "  " << tempdir[i].filename;
+                    cout << '\n';
+                }
+            } else if (args[1] == "-la") {
+                string path = args[0] + "/.";
+                int tempinodeindex;
+                vector<Dirnode> tempdir;
+                path = pathdivide(path, tempinodeindex);
+                if (path == "|error|") {    //找不到路径
+                    cout << "Error: can't find the dir\n";
+                    return;
+                }
+                for (int i = 0; i < inode[tempinodeindex].blocknum; i++) {
+                    Dir temp{};
+                    disk.seekg((87 + inode[tempinodeindex].blocknode[i]) * 1024);
+                    disk.read((char *) &temp, sizeof(temp));
+                    for (int j = 0; j < temp.num; j++) {
+                        tempdir.push_back(temp.dir[j]);
+                    }
+                }
+                char c[8];
+                strcpy(c, "dwrxwrx");
+                for (int i = 0; i < tempdir.size(); i++) {//输出当前目录的内容
+                    cout << ((inode[tempdir[i].inodeindex].mode[0] == '1') ? 'f' : 'd');
+                    for (int j = 1; j < 6; j++) {
+                        if (inode[tempdir[i].inodeindex].mode[i] == '1') {
+                            cout << c[j];
+                        } else {
+                            cout << '-';
+                        }
+                    }
+                    cout << "  " << inode[tempdir[i].inodeindex].owner;
+                    cout << "  " << strtime(inode[tempdir[i].inodeindex].time);
+                    cout << "  " << tempdir[i].filename;
+                    cout << '\n';
+                }
+            }
             break;
         };
     };
-    ;
 }
 
 #endif//OS_LS_H

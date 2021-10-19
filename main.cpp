@@ -15,70 +15,11 @@
 // 超级块（1k）| 数据块位图（13K）| i节点表（73k）| 根目录块（1k）| 数据块（102312k）
 
 int main() {
+    //初始化函数
+//    format();
+//    return 0;
     disk.open(FileName, ios::in | ios::out | ios::binary);
     cout << disk.is_open() << '\n';
-    //    readinode();
-    //    for(int i = 2;i < 1024;i++){
-    //        inode[i].blocknum = 0;
-    //    }
-    //    disk.seekp(14 *1024);
-    //    for(auto &i:inode){
-    //        disk.write((char*)&i,sizeof(i));
-    //    }
-    //    disk.close();
-    //    return 0;
-    //    superblock.freeinodenum = 1022;
-    //    superblock.freeblocknum = 102311;
-    //    for(auto &i : freeblock){
-    //        i = pow2(32) -1;
-    //    }
-    //    freeblock[0] -= 3;
-    //    cout << freeblock[0] << '\n'<< freeblock[1] << '\n';
-    //    disk.seekp(0);
-    //    disk.write((char *)&superblock,sizeof(superblock));
-    //    disk.seekp(1024);
-    //    disk.write((char *)freeblock,sizeof(freeblock));
-    //    disk.close();
-    //    return 0;
-    //    format();
-    //    INode temp{};
-    //    temp.blocknum = 1;
-    //    temp.blocknode[0] = 1;
-    //    temp.fsize = 0;
-    //    strcpy(temp.mode, "0111111");
-    //    strcpy(temp.owner, "Admin");
-    //    strcpy(temp.time,"20211015");
-    //    disk.seekp(14 * 1024 + 72);
-    //    disk.write((char*)&temp, sizeof(temp));
-    //    Dir t{};
-    //    t.num = 2;
-    //    strcpy(t.dir[0].filename, "..");
-    //    t.dir[0].inodeindex = 1;
-    //    strcpy(t.dir[1].filename, ".");
-    //    t.dir[1].inodeindex = 1;
-    //    strcpy(t.dir[2].filename, "usr");
-    //    t.dir[2].inodeindex = 1;
-    //    disk.seekp(87 * 1024 + 1024);
-    //    disk.write((char*)&t, sizeof(t));
-    //    disk.close();
-    //    return 0;
-    //    disk.open(FileName,ios::in|ios::out|ios::binary);
-    //    cout << disk.is_open() <<'\n';
-    //    INode t{};
-    //    disk.seekg(14 * 1024);
-    //    disk.read((char*)&inode[0], sizeof(inode[0]));
-    //    cout << inode[0].blocknum <<'\n';
-    //    cout << inode[0].blocknode[0] << '\n';
-    //    return 0;
-    //    Dir tt{};
-    //    disk.seekg(87*1024);
-    //    disk.read((char*)&tt,sizeof(tt));
-    //    cout << tt.num << '\n';
-    //    cout << tt.dir[0].filename <<'\n';
-    //    cout << tt.dir[1].filename <<'\n';
-    //    cout << tt.dir[2].filename <<'\n';
-    //    disk.close();
-    //    return 0;
     readsuperblock();
     readbitmap();
     readinode();
