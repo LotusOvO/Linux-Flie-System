@@ -80,9 +80,11 @@ int findfreeblock() {
 
 void delblock(int index) {
     freeblock[index / 32] += pow2(index % 32);
+    superblock.freeblocknum ++;
 }
 
 void delinode(int index) {
+    superblock.freeinodenum ++;
     vector<Dirnode> t;
     if (inode[index].mode[0] == '0') {//目录
         for (int i = 0; i < inode[index].blocknum; i++) {

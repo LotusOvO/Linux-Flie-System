@@ -55,7 +55,7 @@ void mf(vector<string> args = {}) {
         strcpy(inode[newinode].mode, inode[tempinodeindex].mode);
         strcpy(inode[newinode].owner, inode[tempinodeindex].owner);
         inode[newinode].mode[0] = '1';
-        strcpy(inode[newinode].time, "20211018");
+        strcpy(inode[newinode].time, gettime().c_str());
         inode[newinode].blocknum = 0;
 
         string content(args[1]);

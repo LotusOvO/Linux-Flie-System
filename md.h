@@ -54,7 +54,7 @@ void md(vector<string> args = {}) {
         inode[newinode].fsize = 0;
         strcpy(inode[newinode].mode, inode[tempinodeindex].mode);
         strcpy(inode[newinode].owner, inode[tempinodeindex].owner);
-        strcpy(inode[newinode].time, "20211018");
+        strcpy(inode[newinode].time, gettime().c_str());
         inode[newinode].blocknum = 1;
         //分配新的数据块
         inode[newinode].blocknode[0] = findfreeblock();
