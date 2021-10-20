@@ -22,8 +22,8 @@ streampos getFileSize(const char *strFileName) {
 
 void format() {
     //判断已分配磁盘块是否为规定大小
+    cout << "----------系统正在初始化----------" << endl;
     if (getFileSize(FileName) != (100 << 20)) {
-        cout << "----------系统正在初始化----------" << endl;
         ofstream f;
         f.open(FileName, ios::binary);
         cout << f.is_open() << endl;
@@ -36,7 +36,7 @@ void format() {
     disk.open(FileName, ios::in | ios::out | ios::binary);
     //初始化超级块
     superblock.freeinodenum = 1023;
-    superblock.freeblocknum = 102321;
+    superblock.freeblocknum = 102312;
     disk.seekp(0);
     disk.write((char *) &superblock, sizeof(superblock));
     //初始化位图

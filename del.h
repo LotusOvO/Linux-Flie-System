@@ -8,13 +8,13 @@
 
 void del(vector<string> args){
     if(args.size() == 1){
-        int tempinodeindex;
+        int tempinodeindex; //当前目录的i节点
         string path = pathdivide(args[0], tempinodeindex);
         if (path == "|error|") {//找不到路径
             cout << "Error: can't find the dir\n";
             return;
         }
-        vector<Dirnode> tempdir;
+        vector<Dirnode> tempdir;    //当前目录
         //读取目录
         for (int i = 0; i < inode[tempinodeindex].blocknum; i++) {
             Dir temp{};
@@ -51,7 +51,7 @@ void del(vector<string> args){
             disk.seekp((87 + inode[tempinodeindex].blocknode[i]) * 1024);
             disk.write((char *) &t, sizeof(t));
         }
-        int lastnum = tempdir.size() % 40;
+        int lastnum = tempdir.size() % 40;  //最后一块的目录项数量
         if (lastnum) {
             Dir t{};
             t.num = lastnum;

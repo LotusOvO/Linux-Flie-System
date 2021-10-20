@@ -21,7 +21,10 @@ int main() {
 //    format();
 //    return 0;
     disk.open(FileName, ios::in | ios::out | ios::binary);
-    cout << disk.is_open() << '\n';
+    if(!disk.is_open()){
+        cout << "Disk not found!\n";
+        return 0;
+    }
     readsuperblock();
     readbitmap();
     readinode();
@@ -29,7 +32,7 @@ int main() {
     cout << nowdirname << ">";
     string in;
     stringstream input;
-    while (getline(cin, in)) {
+    while (getline(cin, in)) {  //获取一行命令
         input.clear();
         input.str(in);
         string order;

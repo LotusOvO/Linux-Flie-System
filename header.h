@@ -32,25 +32,25 @@ struct Dir {//804b
     Dirnode dir[40];
 };
 
-//磁盘块有102400块
-//inode节点约为1%，即1024个
+//磁盘块有1024*1024块
+//inode节点约为1%，1024个
 
 struct SuperBlock {
-    int freeblocknum;
-    int freeinodenum;
+    int freeblocknum;   //空闲数据块s数量
+    int freeinodenum;   //空闲i节点数量
 };
-inline SuperBlock superblock;
+inline SuperBlock superblock;   //超级块
 
 inline uint32_t freeblock[3200];   //数据块位图 1可用 0不可用
 inline INode inode[1024];     //i节点表
-inline Dir rooddir;           //根目录
+//inline Dir rooddir;           //根目录
 inline std::string nowdirname;//当前目录名称
 inline int nowinodenum;       //当前i节点编号
-inline std::vector<Dirnode> nowdir;
+//inline std::vector<Dirnode> nowdir;
 // 超级块（1k）| 数据块位图（13K）| i节点表（73k）| 根目录块（1k）| 数据块（102312k）
 
-string pathdivide(string path, int &tempinodeindex) {
-    vector<Dirnode> tempdir;
+string pathdivide(string path, int &tempinodeindex) {   //处理路径->工作目录&操作文件/目录名
+    vector<Dirnode> tempdir;    //目录
     if (path[0] == '/') {
         tempinodeindex = 0;//定位到根目录
         path = path.substr(1);
@@ -61,7 +61,7 @@ string pathdivide(string path, int &tempinodeindex) {
         disk.read((char*)&temp,sizeof(temp));
         tempinodeindex = temp.dir[1].inodeindex;
     }
-    size_t pos = path.find_first_of('/');;
+    size_t pos = path.find_first_of('/');   //通过'/'划分
     while (pos != string::npos) {
         string needopen = path.substr(0, pos);
         path = path.substr(pos + 1);

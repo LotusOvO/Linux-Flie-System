@@ -8,9 +8,10 @@
 #include <cstring>
 
 void cd(vector<string> args = {}) {
+    //保存现有状态
     string temp = nowdirname;
     int tempindex = nowinodenum;
-    if (args.empty()) {
+    if (args.empty()) { //定位到根目录
         nowinodenum = 0;
         nowdirname.clear();
         nowdirname = "simdisk";
@@ -22,8 +23,8 @@ void cd(vector<string> args = {}) {
 //            cout << "Error: can't find the dir\n";
 //            return;
 //        }
-        vector<Dirnode> tempdir;
-        int tempinodeindex;
+        vector<Dirnode> tempdir;    //当前目录的目录项
+        int tempinodeindex; //当前目录的i节点
         if (path[0] == '/') {
             tempinodeindex = 0;//定位到根目录
             path = path.substr(1);

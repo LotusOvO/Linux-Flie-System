@@ -10,13 +10,13 @@
 
 void md(vector<string> args = {}) {
     if (args.size() == 1) {
-        int tempinodeindex;
+        int tempinodeindex; //当前目录i节点
         string path = pathdivide(args[0], tempinodeindex);
         if (path == "|error|") {//找不到路径
             cout << "Error: can't find the dir\n";
             return;
         }
-        Dir temp{};
+        Dir temp{}; //当前目录
         for (int i = 0; i < inode[tempinodeindex].blocknum; i++) {//判断是否重名
             disk.seekg((87 + inode[tempinodeindex].blocknode[i]) * 1024);
             disk.read((char *) &temp, sizeof(temp));
@@ -27,7 +27,7 @@ void md(vector<string> args = {}) {
                 }
             }
         }
-        int isnew = 0;
+        int isnew = 0;  //是否为新的数据块
         if (temp.num == 40) {//数据块存满，新增数据块
             isnew = 1;
             if (inode[tempinodeindex].blocknum == 10) {

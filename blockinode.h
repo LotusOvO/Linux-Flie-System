@@ -9,42 +9,42 @@
 #include <fstream>
 using namespace std;
 
-void readsuperblock() {
+void readsuperblock() { //读入超级块
     disk.seekg(0);
     disk.read((char *) &superblock.freeblocknum, sizeof(superblock.freeblocknum));
     disk.read((char *) &superblock.freeinodenum, sizeof(superblock.freeinodenum));
     //    cout <<superblock.blocknum << superblock.inodenum;
 }
 
-void readbitmap() {
+void readbitmap() { //读入位图
     disk.seekg(1024);
     for (auto &i : freeblock) {
         disk.read((char *) &i, sizeof(i));
     }
 }
 
-void readinode() {
+void readinode() {  //读入i节点
     disk.seekg(14 * 1024);
     for (auto &i : inode) {
         disk.read((char *) &i, sizeof(i));
     }
 }
 
-void readrootdir() {
-    nowdir.clear();
-    for (int i = 0; i < inode[0].blocknum; i++) {
-        disk.seekg(87 * 1024 + inode[0].blocknode[i] * 1024);
-        Dir temp{};
-        disk.read((char *) &temp, sizeof(temp));
-        for (int j = 0; j < temp.num; j++) {
-            nowdir.push_back(temp.dir[j]);
-        }
-    }
+void readrootdir() {    //设置为根目录
+//    nowdir.clear();
+//    for (int i = 0; i < inode[0].blocknum; i++) {
+//        disk.seekg(87 * 1024 + inode[0].blocknode[i] * 1024);
+//        Dir temp{};
+//        disk.read((char *) &temp, sizeof(temp));
+//        for (int j = 0; j < temp.num; j++) {
+//            nowdir.push_back(temp.dir[j]);
+//        }
+//    }
     nowinodenum = 0;
     nowdirname += "simdisk";
 }
 
-int findfreeinode() {
+int findfreeinode() {   //申请一个空闲i节点
     if (superblock.freeinodenum == 0) {//没有空闲i节点
         return -1;
     }
@@ -58,7 +58,7 @@ int findfreeinode() {
     return -1;
 };
 
-int findfreeblock() {
+int findfreeblock() {   //申请一个空闲数据块
     if (superblock.freeblocknum <= 0) {//没有空闲数据块
         return -1;
     }
@@ -78,12 +78,12 @@ int findfreeblock() {
     return -1;
 };
 
-void delblock(int index) {
+void delblock(int index) {  //释放数据块
     freeblock[index / 32] += pow2(index % 32);
     superblock.freeblocknum ++;
 }
 
-void delinode(int index) {
+void delinode(int index) {  //释放i节点
     superblock.freeinodenum ++;
     vector<Dirnode> t;
     if (inode[index].mode[0] == '0') {//目录

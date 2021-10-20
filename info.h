@@ -21,6 +21,7 @@ void info(vector<string> args){
         cout << "del <dir/filename>\n";
         cout << "copy (@)<dir/filename> (@)<dir/filename>\n";
         cout << "check\n";
+        cout << "exit\n";
 
     }
     else{

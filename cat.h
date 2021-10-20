@@ -8,7 +8,7 @@
 
 void cat(vector<string> args,string &cont) {
     if (args.size() == 1) {
-        int tempinodeindex;
+        int tempinodeindex; //当前目录i节点
         string path = pathdivide(args[0], tempinodeindex);
         if (path == "|error|") {//找不到路径
             cont = "|error|";
@@ -16,7 +16,7 @@ void cat(vector<string> args,string &cont) {
             return;
         }
         Dir temp{};
-        int fileinode = -1;
+        int fileinode = -1; //文件i节点
         for (int i = 0; i < inode[tempinodeindex].blocknum; i++) {//寻找该文件
             disk.seekg((87 + inode[tempinodeindex].blocknode[i]) * 1024);
             disk.read((char *) &temp, sizeof(temp));
@@ -40,9 +40,7 @@ void cat(vector<string> args,string &cont) {
         for (int i = 0; i < inode[fileinode].blocknum; i++) {
             char c[1000];
             disk.seekg((87 + inode[fileinode].blocknode[i]) * 1024);
-//            cout << disk.tellp() <<"<- c\n";
             disk.read(c, 1000);
-//            cout << c ;
             cont.append(c);
         }
 //        cout << '\n';

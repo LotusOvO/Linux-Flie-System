@@ -15,9 +15,9 @@ void copy(vector<string> args) {
         return;
 
     } else if (args.size() == 2) {
-        string content;
+        string content; //文件内容
         //复制
-        if (args[0][0] == '@') { //系统文件
+        if (args[0][0] == '@') { //读取系统文件
             string from = args[0].substr(1);
             fstream hostfile(from, ios::in | ios::out);
             if (!hostfile.is_open()) {
@@ -28,7 +28,7 @@ void copy(vector<string> args) {
             ss << hostfile.rdbuf();
             content = ss.str();
             hostfile.close();
-        } else {    //模拟文件
+        } else {    //读取模拟文件
             vector<string> p = {args[0]};
             cat(p, content);
             if(content == "|error|"){
@@ -37,7 +37,7 @@ void copy(vector<string> args) {
             }
         }
         //粘贴
-        if(args[1][0] == '@'){  //系统文件
+        if(args[1][0] == '@'){  //新建系统文件
             string to = args[1].substr(1);
             fstream hostfile(to, ios::in | ios::out);
             if (!hostfile.is_open()) {
@@ -47,7 +47,7 @@ void copy(vector<string> args) {
             hostfile << content;
             hostfile.close();
         }
-        else{   //模拟文件
+        else{   //新建模拟文件
             vector<string> p ={args[1],content};
             mf(p);
         }
