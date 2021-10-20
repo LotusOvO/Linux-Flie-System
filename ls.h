@@ -61,7 +61,7 @@ void ls(vector<string> args = {}) {
                 for (int i = 2; i < tempdir.size(); i++) {//输出当前目录的内容
                     cout << ((inode[tempdir[i].inodeindex].mode[0] == '1') ? 'f' : 'd');
                     for (int j = 1; j < 6; j++) {
-                        if (inode[tempdir[i].inodeindex].mode[i] == '1') {
+                        if (inode[tempdir[i].inodeindex].mode[j] == '1') {
                             cout << c[j];
                         } else {
                             cout << '-';
@@ -88,7 +88,7 @@ void ls(vector<string> args = {}) {
                 for (int i = 0; i < tempdir.size(); i++) {//输出当前目录的内容
                     cout << ((inode[tempdir[i].inodeindex].mode[0] == '1') ? 'f' : 'd');
                     for (int j = 1; j < 6; j++) {
-                        if (inode[tempdir[i].inodeindex].mode[i] == '1') {
+                        if (inode[tempdir[i].inodeindex].mode[j] == '1') {
                             cout << c[j];
                         } else {
                             cout << '-';
@@ -172,7 +172,7 @@ void ls(vector<string> args = {}) {
                 for (int i = 2; i < tempdir.size(); i++) {//输出当前目录的内容
                     cout << ((inode[tempdir[i].inodeindex].mode[0] == '1') ? 'f' : 'd');
                     for (int j = 1; j < 6; j++) {
-                        if (inode[tempdir[i].inodeindex].mode[i] == '1') {
+                        if (inode[tempdir[i].inodeindex].mode[j] == '1') {
                             cout << c[j];
                         } else {
                             cout << '-';
@@ -205,7 +205,7 @@ void ls(vector<string> args = {}) {
                 for (int i = 0; i < tempdir.size(); i++) {//输出当前目录的内容
                     cout << ((inode[tempdir[i].inodeindex].mode[0] == '1') ? 'f' : 'd');
                     for (int j = 1; j < 6; j++) {
-                        if (inode[tempdir[i].inodeindex].mode[i] == '1') {
+                        if (inode[tempdir[i].inodeindex].mode[j] == '1') {
                             cout << c[j];
                         } else {
                             cout << '-';

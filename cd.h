@@ -18,10 +18,10 @@ void cd(vector<string> args = {}) {
     } else if (args.size() == 1) {
         string path = args[0] + "/.";
 //        string path = pathdivide(args[0] + "/.", tempinodenum);
-        if(path == "|error|"){    //找不到路径
-            cout << "Error: can't find the dir\n";
-            return;
-        }
+//        if(path == "|error|"){    //找不到路径
+//            cout << "Error: can't find the dir\n";
+//            return;
+//        }
         vector<Dirnode> tempdir;
         int tempinodeindex;
         if (path[0] == '/') {
@@ -30,7 +30,7 @@ void cd(vector<string> args = {}) {
             nowdirname.clear();
             nowdirname += "simdisk";
         } else {
-            tempinodeindex = nowdir[1].inodeindex;//定位到当前目录
+            tempinodeindex = nowinodenum;//定位到当前目录
         }
         size_t pos = path.find_first_of('/');;
         while (pos != string::npos) {

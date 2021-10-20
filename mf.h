@@ -9,6 +9,9 @@
 #include <cstring>
 
 void mf(vector<string> args = {}) {
+    if (args.size() == 1){
+        args.push_back("");
+    }
     if (args.size() == 2) {
         int tempinodeindex;
         string path = pathdivide(args[0], tempinodeindex);
