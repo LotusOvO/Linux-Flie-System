@@ -219,6 +219,10 @@ void ls(vector<string> args = {}) {
             }
             break;
         };
+        default:{
+            cout << "Error: Undefined instruction\n";
+            return;
+        }
     };
 }
 

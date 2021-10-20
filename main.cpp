@@ -10,6 +10,7 @@
 #include "mf.h"
 #include "rd.h"
 #include "info.h"
+#include "check.h"
 #include <cstring>
 #include <iostream>
 #include <sstream>
@@ -125,6 +126,15 @@ int main() {
                 temp.push_back(s);
             }
             info(temp);
+            goto End;
+        }
+        if (order == "check") {
+            vector<string> temp;
+            string s;
+            while (input >> s) {
+                temp.push_back(s);
+            }
+            check(temp);
             goto End;
         }
 
