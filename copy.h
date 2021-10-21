@@ -21,7 +21,7 @@ void copy(vector<string> args) {
             string from = args[0].substr(1);
             fstream hostfile(from, ios::in | ios::out);
             if (!hostfile.is_open()) {
-                cout << "Error: cna't find the path\n";
+                cout << "Error: can't find the path\n";
                 return;
             }
             stringstream ss;
@@ -32,7 +32,7 @@ void copy(vector<string> args) {
             vector<string> p = {args[0]};
             cat(p, content);
             if(content == "|error|"){
-                cout << "Error: cna't find the path\n";
+                cout << "Error: can't find the path\n";
                 return;
             }
         }
@@ -41,7 +41,7 @@ void copy(vector<string> args) {
             string to = args[1].substr(1);
             fstream hostfile(to, ios::in | ios::out);
             if (!hostfile.is_open()) {
-                cout << "Error: cna't find the path\n";
+                cout << "Error: can't find the path\n";
                 return;
             }
             hostfile << content;

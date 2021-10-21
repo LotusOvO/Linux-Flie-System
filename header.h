@@ -7,6 +7,9 @@
 #include <vector>
 #include <ctime>
 #include <cstring>
+#include <fstream>
+#include <string>
+
 using namespace std;
 
 inline const char *FileName = "../sd";
