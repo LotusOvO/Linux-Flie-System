@@ -8,24 +8,24 @@
 
 void info(vector<string> args){
     if(args.size() == 0){
-        cout << "Maximum memory: 100M\n";
-        cout << "Free memory : ";
-        cout << superblock.freeblocknum <<"K\n";
-        cout << "Instructions:\n";
-        cout << "ls (<dir>) (-a|-l|-la)\n";
-        cout << "cd (<dir>)\n";
-        cout << "md <dir>\n";
-        cout << "rd <dir>\n";
-        cout << "mf <dir/filename> (content)\n";
-        cout << "cat <dir/filename>\n";
-        cout << "del <dir/filename>\n";
-        cout << "copy (@)<dir/filename> (@)<dir/filename>\n";
-        cout << "check\n";
-        cout << "exit\n";
+        outss << "Maximum memory: 100M\n";
+        outss << "Free memory : ";
+        outss << superblock.freeblocknum <<"K\n";
+        outss << "Instructions:\n";
+        outss << "ls (<dir>) (-a|-l|-la)\n";
+        outss << "cd (<dir>)\n";
+        outss << "md <dir>\n";
+        outss << "rd <dir>\n";
+        outss << "mf <dir/filename> (content)\n";
+        outss << "cat <dir/filename>\n";
+        outss << "del <dir/filename>\n";
+        outss << "copy (@)<dir/filename> (@)<dir/filename>\n";
+        outss << "check\n";
+        outss << "exit\n";
 
     }
     else{
-        cout << "Error: Undefined instruction\n";
+        outss << "Error: Undefined instruction\n";
     }
 }
 

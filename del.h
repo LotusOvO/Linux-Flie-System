@@ -11,7 +11,7 @@ void del(vector<string> args){
         int tempinodeindex; //当前目录的i节点
         string path = pathdivide(args[0], tempinodeindex);
         if (path == "|error|") {//找不到路径
-            cout << "Error: can't find the dir\n";
+            outss << "Error: can't find the dir\n";
             return;
         }
         vector<Dirnode> tempdir;    //当前目录
@@ -31,7 +31,7 @@ void del(vector<string> args){
                 if (inode[tempdir[i].inodeindex].mode[0] == '1') {
                     dirindex = i;
                 } else {
-                    cout << "Error: This is not a file\n";
+                    outss << "Error: This is not a file\n";
                     return;
                 }
             }
@@ -72,7 +72,7 @@ void del(vector<string> args){
         disk.write((char *) &inode[tempinodeindex], sizeof(inode[tempinodeindex]));
     }
     else{
-        cout << "Error: Undefined instruction\n";
+        outss << "Error: Undefined instruction\n";
         return;
     }
 }

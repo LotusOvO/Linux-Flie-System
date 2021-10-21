@@ -16,7 +16,7 @@ void mf(vector<string> args = {}) {
         int tempinodeindex;
         string path = pathdivide(args[0], tempinodeindex);
         if (path == "|error|") {//找不到路径
-            cout << "Error: can't find the dir\n";
+            outss << "Error: can't find the dir\n";
             return;
         }
         Dir temp{};
@@ -25,7 +25,7 @@ void mf(vector<string> args = {}) {
             disk.read((char *) &temp, sizeof(temp));
             for (int j = 0; j < temp.num; j++) {
                 if (temp.dir[j].filename == path) {
-                    cout << "Error: This is the same name\n";
+                    outss << "Error: This is the same name\n";
                     return;
                 }
             }
@@ -34,7 +34,7 @@ void mf(vector<string> args = {}) {
         if (temp.num == 40) {//数据块存满，新增数据块
             isnew = 1;
             if (inode[tempinodeindex].blocknum == 10) {
-                cout << "Error: can't new more file\n";
+                outss << "Error: can't new more file\n";
                 return;
             }
             int newblock = findfreeblock();
@@ -70,13 +70,13 @@ void mf(vector<string> args = {}) {
             string cutcontent = content.substr(i * 1000, 1000);
             strcpy(c,cutcontent.c_str());
             disk.seekp((87 + inode[newinode].blocknode[i]) * 1024);
-//            cout << disk.tellp() <<"<- m\n";
+//            outss << disk.tellp() <<"<- m\n";
             disk.write(c,1000);
         }
         inode[newinode].fsize = len;
         return;
     } else {
-        cout << "Error: Undefined instruction\n";
+        outss << "Error: Undefined instruction\n";
         return;
     }
 }

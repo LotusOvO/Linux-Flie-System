@@ -23,13 +23,11 @@
 using namespace std;
 
 
-int main(){
-    stringstream inss;
-    stringstream outss;
+int main() {
     inss.clear();
     outss.clear();
     disk.open(FileName, ios::in | ios::out | ios::binary);
-    if(!disk.is_open()){
+    if (!disk.is_open()) {
         outss << "Disk not found!\n";
         return 0;
     }
@@ -44,40 +42,50 @@ int main(){
     struct share *in = nullptr;
     string input;
     int shmidin;
-    shmidin = shmget((key_t)1234, sizeof(struct share), 0666|IPC_CREAT);
-    shmin = shmat(shmidin,nullptr,0);
-    in = (struct share*)shmin;
+    shmidin = shmget((key_t) 1234, sizeof(struct share), 0666 | IPC_CREAT);
+    shmin = shmat(shmidin, nullptr, 0);
+    in = (struct share *) shmin;
     //创建传入前端的共享内存
     void *shmout = nullptr;
     struct share *out = nullptr;
     string output;
     int shmidout;
-    shmidout = shmget((key_t)12345, sizeof(struct share), 0666|IPC_CREAT);
-    shmout = shmat(shmidout,nullptr,0);
-    out = (struct share*)shmout;
+    shmidout = shmget((key_t) 12345, sizeof(struct share), 0666 | IPC_CREAT);
+    shmout = shmat(shmidout, nullptr, 0);
+    out = (struct share *) shmout;
     in->written = 0;    //将in设置为可写
-    while(running){
-        if(out->written == 0){  //如果out可写
+    out->written = 0;
+    int turn = 0;
+    while (running) {
+//        cout << out->written <<"   " << in->written <<'\n';
+            while (out->written) {
+                sleep(1);
+            }
+            //如果out可写
+            //cout << "server is writing\n";
+        memset(shmout,0, sizeof(struct share));
             output = outss.str();
-            outss.clear();
-            strcpy(out->content,output.c_str());
+            strcpy(out->content, output.c_str());
+            outss.str("");
+//            sleep(3);
             out->written = 1;   //将out设置为可读
-        }
-        else{
-            sleep(1);
-            continue;
-        }
-        if(in->written){    //如果in可读
-            string temp = in->content;
-            inss.str(temp);
-            in->written = 0;    //将in设置为可写
-        }
-        else{
-            sleep(1);
-            continue;
-        }
+            while(!in->written){
+                sleep(1);
+            }
+            //cout << "server is reading\n";
+            //如果in可读
+                string temp(in->content);
+          //      cout << temp<<endl;
+          //      cout << in->content << endl;
+                inss.clear();
+                inss.str(temp);
+          //      cout << temp[0]<<' ' << temp[1]<<endl;
+                in->written = 0;    //将in设置为可写
+
+                turn = 0;
         string order;
         inss >> order;
+        //cout << order <<endl;
         if (order == "exit" || order == "EXIT") {
             save();
             disk.close();
@@ -185,7 +193,10 @@ int main(){
         outss << "Error: Undefined instruction\n";
         End:
         outss << nowdirname << ">";
-        inss.clear();
+        inss.str("");
     }
+    //删除共享内存
+    shmctl(shmidin, IPC_RMID, 0);
+    shmctl(shmidout, IPC_RMID, 0);
     return 0;
 }

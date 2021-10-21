@@ -13,11 +13,11 @@ void rd(vector<string> args = {}) {
         int tempinodeindex;
         string path = pathdivide(args[0], tempinodeindex);
         if (path == "|error|") {//找不到路径
-            cout << "Error: can't find the dir\n";
+            outss << "Error: can't find the dir\n";
             return;
         }
         if (path == "." || path == "..") {//无法删除的路径
-            cout << "Error: Can't delete this dir\n";
+            outss << "Error: Can't delete this dir\n";
             return;
         }
         vector<Dirnode> tempdir;
@@ -37,7 +37,7 @@ void rd(vector<string> args = {}) {
                 if (inode[tempdir[i].inodeindex].mode[0] == '0') {
                     dirindex = i;
                 } else {
-                    cout << "Error: This is not a dir\n";
+                    outss << "Error: This is not a dir\n";
                     return;
                 }
             }
@@ -47,11 +47,11 @@ void rd(vector<string> args = {}) {
         disk.seekg((87 + inode[tempdir[dirindex].inodeindex].blocknode[0]) * 1024);
         disk.read((char *) &tt, sizeof(tt));
         if (tt.num > 2) {
-            cout << "Warning: The dir is not empty, type \'y\' to continue\n";
+            outss << "Warning: The dir is not empty, type \'y\' to continue\n";
             string s;
             getline(cin , s);
             if (s != "y" && s != "Y") {
-                cout << "Cancel operation\n";
+                outss << "Cancel operation\n";
                 return;
             }
         }
@@ -90,7 +90,7 @@ void rd(vector<string> args = {}) {
         disk.seekp(14 * 1024 + 72 * tempinodeindex);
         disk.write((char *) &inode[tempinodeindex], sizeof(inode[tempinodeindex]));
     } else {
-        cout << "Error: Undefined instruction\n";
+        outss << "Error: Undefined instruction\n";
         return;
     }
 }

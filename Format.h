@@ -22,11 +22,11 @@ streampos getFileSize(const char *strFileName) {
 
 void format() {
     //判断已分配磁盘块是否为规定大小
-    cout << "----------系统正在初始化----------" << endl;
+    outss << "----------系统正在初始化----------" << endl;
     if (getFileSize(FileName) != (100 << 20)) {
         ofstream f;
         f.open(FileName, ios::binary);
-        cout << f.is_open() << endl;
+        outss << f.is_open() << endl;
         //写入100M的数据,开辟磁盘空间
         for (long long i = 0; i < (100 << 20); i++) {
             f.write(static_cast<const char *>(" "), 1);

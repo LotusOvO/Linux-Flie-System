@@ -13,7 +13,7 @@ void md(vector<string> args = {}) {
         int tempinodeindex; //当前目录i节点
         string path = pathdivide(args[0], tempinodeindex);
         if (path == "|error|") {//找不到路径
-            cout << "Error: can't find the dir\n";
+            outss << "Error: can't find the dir\n";
             return;
         }
         Dir temp{}; //当前目录
@@ -22,7 +22,7 @@ void md(vector<string> args = {}) {
             disk.read((char *) &temp, sizeof(temp));
             for (int j = 0; j < temp.num; j++) {
                 if (temp.dir[j].filename == path) {
-                    cout << "Error: This is the same name\n";
+                    outss << "Error: This is the same name\n";
                     return;
                 }
             }
@@ -31,7 +31,7 @@ void md(vector<string> args = {}) {
         if (temp.num == 40) {//数据块存满，新增数据块
             isnew = 1;
             if (inode[tempinodeindex].blocknum == 10) {
-                cout << "Error: can't new more file\n";
+                outss << "Error: can't new more file\n";
                 return;
             }
             int newblock = findfreeblock();
@@ -73,7 +73,7 @@ void md(vector<string> args = {}) {
         disk.write((char *) &t, sizeof(t));
         return;
     }
-    cout << "Error: Undefined instruction\n";
+    outss << "Error: Undefined instruction\n";
 }
 
 

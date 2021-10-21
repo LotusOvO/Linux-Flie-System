@@ -20,7 +20,7 @@ void cd(vector<string> args = {}) {
         string path = args[0] + "/.";
 //        string path = pathdivide(args[0] + "/.", tempinodenum);
 //        if(path == "|error|"){    //找不到路径
-//            cout << "Error: can't find the dir\n";
+//            outss << "Error: can't find the dir\n";
 //            return;
 //        }
         vector<Dirnode> tempdir;    //当前目录的目录项
@@ -68,14 +68,14 @@ void cd(vector<string> args = {}) {
             //无法打开，还原原本状态
             nowdirname = temp;
             nowinodenum = tempindex;
-            cout << "Error: can't find the dir\n";
+            outss << "Error: can't find the dir\n";
             return;
         End1:
             pos = path.find_first_of('/');;
         }
         goto End;
     }
-    cout << "Error: Undefined instruction\n";
+    outss << "Error: Undefined instruction\n";
     End:
         ;
 }

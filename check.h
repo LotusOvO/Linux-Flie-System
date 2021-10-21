@@ -61,9 +61,9 @@ void check(vector<string> args){
             }
             superblock.freeblocknum = 102313 - blo.size();
         }
-        cout << "Check over!\n";
+        outss << "Check over!\n";
     }else{
-        cout << "Error: Undefined instruction\n";
+        outss << "Error: Undefined instruction\n";
         return;
     }
 }

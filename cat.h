@@ -12,7 +12,7 @@ void cat(vector<string> args,string &cont) {
         string path = pathdivide(args[0], tempinodeindex);
         if (path == "|error|") {//找不到路径
             cont = "|error|";
-            cout << "Error: can't find the dir\n";
+            outss << "Error: can't find the dir\n";
             return;
         }
         Dir temp{};
@@ -29,12 +29,12 @@ void cat(vector<string> args,string &cont) {
         }
         if (fileinode == -1) {
             cont = "|error|";
-            cout << "Error: Can't find this file\n";
+            outss << "Error: Can't find this file\n";
             return;
         }
         if (inode[fileinode].mode[0] == '0') {
             cont = "|error|";
-            cout << "Error: This is not a file\n";
+            outss << "Error: This is not a file\n";
             return;
         }
         for (int i = 0; i < inode[fileinode].blocknum; i++) {
@@ -43,11 +43,11 @@ void cat(vector<string> args,string &cont) {
             disk.read(c, 1000);
             cont.append(c);
         }
-//        cout << '\n';
+//        outss << '\n';
         return;
     } else {
         cont = "|error|";
-        cout << "Error: Undefined instruction\n";
+        outss << "Error: Undefined instruction\n";
         return;
     }
 }

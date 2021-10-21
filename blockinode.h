@@ -13,7 +13,7 @@ void readsuperblock() { //读入超级块
     disk.seekg(0);
     disk.read((char *) &superblock.freeblocknum, sizeof(superblock.freeblocknum));
     disk.read((char *) &superblock.freeinodenum, sizeof(superblock.freeinodenum));
-    //    cout <<superblock.blocknum << superblock.inodenum;
+    //    outss <<superblock.blocknum << superblock.inodenum;
 }
 
 void readbitmap() { //读入位图
@@ -50,7 +50,7 @@ int findfreeinode() {   //申请一个空闲i节点
     }
     for (int i = 0; i < 1024; i++) {
         if (inode[i].blocknum == 0) {
-            //            cout << "newinode: " << i << '\n';
+            //            outss << "newinode: " << i << '\n';
             superblock.freeinodenum -= 1;
             return i;
         }
@@ -67,7 +67,7 @@ int findfreeblock() {   //申请一个空闲数据块
         for (int j = 0; j < 32; j++) {
             if ((temp & 1) == 1) {
                 int newblock = i * 32 + j;
-                //                cout << "newblock: " << newblock << '\n';
+                //                outss << "newblock: " << newblock << '\n';
                 freeblock[i] -= pow2(j);
                 superblock.freeblocknum -= 1;
                 return i * 32 + j;

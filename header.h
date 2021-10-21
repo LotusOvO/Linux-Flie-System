@@ -9,9 +9,12 @@
 #include <cstring>
 #include <fstream>
 #include <string>
+#include <sstream>
 
 using namespace std;
 
+inline stringstream inss;
+inline stringstream outss;
 inline const char *FileName = "../sd";
 inline std::fstream disk;
 inline string nowusr;
